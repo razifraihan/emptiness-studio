@@ -61,8 +61,29 @@
 @if ($order->status === 'pending' && $order->expires_at)
     <p style="margin:32px 0 0;font-size:14px;line-height:1.7;color:#525252;">
         Your order is waiting for payment. We're holding your items until
-        {{ $order->expires_at->format('j F Y, H:i') }}.
+        {{ $order->expires_at->format('j F Y, H:i') }} WIB.
     </p>
+@endif
+
+@if ($order->status === 'pending')
+    <p style="margin:40px 0 0;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#737373;">How to pay</p>
+    @if (config('store.bank_account_number'))
+        <p style="margin:8px 0 0;font-size:14px;line-height:1.7;color:#404040;">
+            We'll message you on WhatsApp to confirm the shipping cost. Once confirmed, please transfer the final total to:
+        </p>
+        <p style="margin:12px 0 0;font-size:14px;line-height:1.7;color:#171717;">
+            {{ config('store.bank_name') }}<br>
+            {{ config('store.bank_account_number') }}<br>
+            Account name: {{ config('store.bank_account_name') }}
+        </p>
+        <p style="margin:12px 0 0;font-size:14px;line-height:1.7;color:#404040;">
+            Then send your proof of transfer, with order number <strong>{{ $order->code }}</strong>, to {{ config('store.proof_contact') }}.
+        </p>
+    @else
+        <p style="margin:8px 0 0;font-size:14px;line-height:1.7;color:#404040;">
+            We'll message you on WhatsApp to confirm the shipping cost and share the payment details.
+        </p>
+    @endif
 @endif
 
 <p style="margin:32px 0 0;">

@@ -9,7 +9,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('components.layouts.app')]
-#[Title('Pesanan')]
+#[Title('Your order')]
 class OrderShow extends Component
 {
     #[Locked]

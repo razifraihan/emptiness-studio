@@ -14,7 +14,10 @@
     <h1 class="mt-2 text-3xl font-semibold">We've received your order</h1>
     <p class="mt-4 text-neutral-600">
         Order number <span class="font-medium text-black">{{ $order->code }}</span>.
-        We'll send payment instructions and confirm the shipping cost by email and WhatsApp.
+        We'll message you on WhatsApp to confirm the shipping cost.
+        @if ($order->status === 'pending')
+            The payment details are below and in your confirmation email.
+        @endif
     </p>
 
     <p class="mt-6 text-sm">
@@ -55,6 +58,30 @@
             <dd>Rp {{ number_format($order->total, 0, ',', '.') }}</dd>
         </div>
     </dl>
+
+    @if ($order->status === 'pending')
+        <div class="mt-10 text-sm text-neutral-700">
+            <h2 class="text-xs uppercase tracking-widest text-neutral-500">How to pay</h2>
+            @if (config('store.bank_account_number'))
+                <p class="mt-3">Once we've confirmed the shipping cost, please transfer the final total to:</p>
+                <p class="mt-3">
+                    {{ config('store.bank_name') }}<br>
+                    {{ config('store.bank_account_number') }}<br>
+                    Account name: {{ config('store.bank_account_name') }}
+                </p>
+                <p class="mt-3">
+                    Send your proof of transfer, with order number {{ $order->code }}, to {{ config('store.proof_contact') }}.
+                </p>
+            @else
+                <p class="mt-3">We'll share the payment details with you on WhatsApp.</p>
+            @endif
+            @if ($order->expires_at)
+                <p class="mt-3 text-neutral-500">
+                    Unpaid orders are cancelled automatically on {{ $order->expires_at->locale('en')->translatedFormat('j F Y, H:i') }} WIB.
+                </p>
+            @endif
+        </div>
+    @endif
 
     <div class="mt-10 text-sm text-neutral-700">
         <h2 class="text-xs uppercase tracking-widest text-neutral-500">Shipping to</h2>
