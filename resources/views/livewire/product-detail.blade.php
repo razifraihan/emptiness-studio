@@ -30,8 +30,10 @@
 
             @if ($project)
                 <p class="mt-3 text-sm text-neutral-500">
-                    @if ($project->number)Project {{ str_pad($project->number, 2, '0', STR_PAD_LEFT) }} &middot; @endif{{ $project->name }}
-                </p>
+    <a href="{{ route('project.show', $project->slug) }}" wire:navigate class="hover:text-black">
+        @if ($project->number)Project {{ str_pad($project->number, 2, '0', STR_PAD_LEFT) }} &middot; @endif{{ $project->name }}
+    </a>
+</p>
 
                 @if ($project->is_preorder)
                     <p class="mt-3 text-sm text-neutral-600">
@@ -46,13 +48,13 @@
             @endif
 
             <div class="mt-8">
-                <p class="text-sm text-neutral-500">Pilih varian</p>
+                <p class="text-sm text-neutral-500">Select variant</p>
                 <div class="mt-3 flex flex-wrap gap-2">
                     @foreach ($product->variants as $v)
                         @php
                             $qty = max(0, $v->stock - $v->reserved);
                             $parts = $multiColor ? [$v->size, $v->color] : [$v->size];
-                            $label = trim(implode(' ', array_filter($parts))) ?: 'Satu ukuran';
+                            $label = trim(implode(' ', array_filter($parts))) ?: 'One size';
                         @endphp
                         <button type="button"
                                 wire:key="variant-{{ $v->id }}"
@@ -69,9 +71,9 @@
                 @if ($variant)
                     <p class="mt-3 text-sm text-neutral-500">
                         @if ($showRemaining)
-                            Sisa {{ $available }}
+                            {{ $available }} left
                         @else
-                            Tersedia
+                            Available
                         @endif
                     </p>
                 @endif
@@ -83,28 +85,28 @@
                 @elseif (! $open)
                     <p class="text-sm text-neutral-600">
                         @if ($project->opens_at && $project->opens_at->isFuture())
-                            Dibuka {{ $project->opens_at->translatedFormat('j F Y, H.i') }}
+                            Opens {{ $project->opens_at->locale('en')->translatedFormat('j F Y, H:i') }}
                         @elseif (in_array($project->status, ['closed', 'archived']) || ($project->closes_at && $project->closes_at->isPast()))
-                            Penjualan project ini sudah ditutup.
+                            Sales for this project have closed.
                         @else
-                            Penjualan belum dibuka.
+                            Sales have not opened yet.
                         @endif
                     </p>
                 @else
                     <button type="button" wire:click="addToCart" @disabled(! $variant)
                             class="w-full border border-black bg-black px-6 py-3 text-sm text-white disabled:cursor-not-allowed disabled:border-neutral-300 disabled:bg-neutral-200 disabled:text-neutral-500">
-                        {{ $variant ? 'Tambah ke keranjang' : 'Pilih varian dulu' }}
+                        {{ $variant ? 'Add to cart' : 'Select a variant first' }}
                     </button>
 
                     @if ($added)
-                        <p class="mt-3 text-sm text-neutral-600">Sudah ditambahkan ke keranjang.</p>
+                        <p class="mt-3 text-sm text-neutral-600">Added to your cart.</p>
                     @endif
                 @endif
             </div>
 
             @if ($product->material)
                 <div class="mt-10">
-                    <h2 class="text-sm uppercase tracking-widest text-neutral-500">Bahan dan perawatan</h2>
+                    <h2 class="text-sm uppercase tracking-widest text-neutral-500">Material &amp; care</h2>
                     <p class="mt-3 whitespace-pre-line text-sm text-neutral-700">{{ $product->material }}</p>
                 </div>
             @endif
@@ -116,9 +118,9 @@
                         <table class="w-full text-left text-sm">
                             <thead>
                                 <tr class="border-b border-neutral-200 text-neutral-500">
-                                    <th class="py-2 pr-4 font-normal">Ukuran</th>
-                                    <th class="py-2 pr-4 font-normal">Lebar dada (cm)</th>
-                                    <th class="py-2 font-normal">Panjang (cm)</th>
+                                    <th class="py-2 pr-4 font-normal">Size</th>
+                                    <th class="py-2 pr-4 font-normal">Chest width (cm)</th>
+                                    <th class="py-2 font-normal">Length (cm)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,7 +139,7 @@
 
             @if ($project && ($project->concept || $project->key_message))
                 <div class="mt-10 border-t border-neutral-200 pt-8">
-                    <h2 class="text-sm uppercase tracking-widest text-neutral-500">Tentang project ini</h2>
+                    <h2 class="text-sm uppercase tracking-widest text-neutral-500">About this project</h2>
                     @if ($project->concept)
                         <p class="mt-3 text-sm text-neutral-700">{{ $project->concept }}</p>
                     @endif

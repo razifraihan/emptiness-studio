@@ -1,5 +1,5 @@
 <a href="{{ route('cart') }}" wire:navigate class="hover:text-black">
-    Keranjang
+    Cart
     @if ($count)
         ({{ $count }})
     @endif

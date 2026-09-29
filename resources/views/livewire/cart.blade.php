@@ -1,5 +1,5 @@
 <div class="mx-auto max-w-4xl px-6 py-16">
-    <h1 class="text-3xl font-semibold">Keranjang</h1>
+    <h1 class="text-3xl font-semibold">Cart</h1>
 
     @if (count($lines))
         <div class="mt-10 divide-y divide-neutral-200 border-y border-neutral-200">
@@ -30,16 +30,16 @@
                         <div class="mt-4 flex items-center justify-between">
                             <div class="flex items-center border border-neutral-300">
                                 <button type="button" wire:click="decrement({{ $line['id'] }})"
-                                        class="px-3 py-1 hover:bg-neutral-100" aria-label="Kurangi">&minus;</button>
+                                        class="px-3 py-1 hover:bg-neutral-100" aria-label="Decrease quantity">&minus;</button>
                                 <span class="min-w-8 px-2 text-center">{{ $line['qty'] }}</span>
                                 <button type="button" wire:click="increment({{ $line['id'] }})"
                                         @disabled($line['unavailable'] || $line['qty'] >= $line['available'])
                                         class="px-3 py-1 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:text-neutral-300"
-                                        aria-label="Tambah">+</button>
+                                        aria-label="Increase quantity">+</button>
                             </div>
 
                             <button type="button" wire:click="remove({{ $line['id'] }})"
-                                    class="text-neutral-500 hover:text-black">Hapus</button>
+                                    class="text-neutral-500 hover:text-black">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -50,23 +50,23 @@
             <p class="text-neutral-500">Subtotal</p>
             <p class="text-xl">Rp {{ number_format($subtotal, 0, ',', '.') }}</p>
         </div>
-        <p class="mt-2 text-sm text-neutral-500">Ongkos kirim dihitung di halaman checkout.</p>
+        <p class="mt-2 text-sm text-neutral-500">Shipping is confirmed after you place your order.</p>
 
-                @if (collect($lines)->contains('unavailable', true))
+        @if (collect($lines)->contains('unavailable', true))
             <p class="mt-8 text-sm text-neutral-500">
-                Ada produk yang sudah sold out. Hapus dari keranjang untuk melanjutkan.
+                Some items in your cart are sold out. Remove them to continue.
             </p>
         @else
             <a href="{{ route('checkout') }}" wire:navigate
                class="mt-8 block w-full border border-black bg-black px-6 py-3 text-center text-sm text-white">
-                Lanjut ke checkout
+                Continue to checkout
             </a>
         @endif
     @else
-        <p class="mt-10 text-neutral-500">Keranjangmu masih kosong.</p>
+        <p class="mt-10 text-neutral-500">Your cart is empty.</p>
         <a href="{{ route('shop') }}" wire:navigate
            class="mt-6 inline-block border border-black px-6 py-3 text-sm hover:bg-black hover:text-white">
-            Lihat koleksi
+            View collection
         </a>
     @endif
 </div>

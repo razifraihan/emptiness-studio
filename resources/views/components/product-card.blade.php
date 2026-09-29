@@ -27,6 +27,6 @@
     </div>
 
     @if ($product->show_remaining)
-        <p class="mt-1 text-xs text-neutral-500">Sisa {{ $product->remaining_stock }}</p>
+        <p class="mt-1 text-xs text-neutral-500">{{ $product->remaining_stock }} left</p>
     @endif
 </a>

@@ -2,11 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Mail\OrderConfirmation;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -177,6 +179,13 @@ class Checkout extends Component
             $this->error = $e->getMessage();
 
             return;
+        }
+
+        // Email konfirmasi (FR-901). Kegagalan email tidak boleh membatalkan pesanan.
+        try {
+            Mail::to($order->customer_email)->send(new OrderConfirmation($order));
+        } catch (\Throwable $e) {
+            report($e);
         }
 
         session()->forget('cart');

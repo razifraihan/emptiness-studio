@@ -5,7 +5,7 @@
         <div class="flex flex-wrap gap-2">
             <button wire:click="$set('category', '')"
                     class="border px-4 py-2 {{ $category === '' ? 'border-black bg-black text-white' : 'border-neutral-300' }}">
-                Semua
+                All
             </button>
             @foreach ($categories as $cat)
                 <button wire:click="$set('category', '{{ $cat->slug }}')"
@@ -16,9 +16,9 @@
         </div>
 
         <select wire:model.live="sort" class="border border-neutral-300 px-3 py-2">
-            <option value="newest">Terbaru</option>
-            <option value="price_asc">Harga terendah</option>
-            <option value="price_desc">Harga tertinggi</option>
+            <option value="newest">Newest</option>
+            <option value="price_asc">Price: low to high</option>
+            <option value="price_desc">Price: high to low</option>
         </select>
     </div>
 
@@ -26,7 +26,7 @@
         @forelse ($products as $product)
             <x-product-card :product="$product" wire:key="product-{{ $product->id }}" />
         @empty
-            <p class="col-span-full text-neutral-500">Belum ada produk di kategori ini.</p>
+            <p class="col-span-full text-neutral-500">No products in this category yet.</p>
         @endforelse
     </div>
 </div>

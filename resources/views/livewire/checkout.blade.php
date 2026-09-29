@@ -1,15 +1,15 @@
 @php
     $inputClass = 'mt-1 w-full border border-neutral-300 px-3 py-2 text-sm focus:border-black focus:outline-none';
     $contact = [
-        'customer_name' => ['Nama lengkap', 'text'],
+        'customer_name' => ['Full name', 'text'],
         'customer_email' => ['Email', 'email'],
-        'customer_phone' => ['Nomor WhatsApp', 'tel'],
+        'customer_phone' => ['WhatsApp number', 'tel'],
     ];
     $region = [
-        'province' => ['Provinsi', 'text'],
-        'city' => ['Kota / kabupaten', 'text'],
-        'district' => ['Kecamatan', 'text'],
-        'postal_code' => ['Kode pos', 'text'],
+        'province' => ['Province', 'text'],
+        'city' => ['City / regency', 'text'],
+        'district' => ['District', 'text'],
+        'postal_code' => ['Postal code', 'text'],
     ];
 @endphp
 
@@ -23,7 +23,7 @@
             @endif
 
             <div class="space-y-4">
-                <h2 class="text-sm uppercase tracking-widest text-neutral-500">Kontak</h2>
+                <h2 class="text-sm uppercase tracking-widest text-neutral-500">Contact</h2>
                 @foreach ($contact as $field => [$label, $type])
                     <label class="block text-sm">
                         {{ $label }}
@@ -34,10 +34,10 @@
             </div>
 
             <div class="space-y-4">
-                <h2 class="text-sm uppercase tracking-widest text-neutral-500">Alamat pengiriman</h2>
+                <h2 class="text-sm uppercase tracking-widest text-neutral-500">Shipping address</h2>
 
                 <label class="block text-sm">
-                    Alamat lengkap
+                    Full address
                     <textarea wire:model="address" rows="3" class="{{ $inputClass }}"></textarea>
                     @error('address') <span class="mt-1 block text-xs text-red-600">{{ $message }}</span> @enderror
                 </label>
@@ -52,27 +52,27 @@
             </div>
 
             <div class="space-y-4">
-                <h2 class="text-sm uppercase tracking-widest text-neutral-500">Catatan (opsional)</h2>
+                <h2 class="text-sm uppercase tracking-widest text-neutral-500">Notes (optional)</h2>
 
                 <label class="block text-sm">
-                    Catatan pesanan
+                    Order note
                     <textarea wire:model="note" rows="2" class="{{ $inputClass }}"></textarea>
                 </label>
 
                 <label class="block text-sm">
-                    Pesan hadiah
+                    Gift message
                     <textarea wire:model="gift_note" rows="2" class="{{ $inputClass }}"></textarea>
                 </label>
             </div>
 
             <button type="submit" wire:loading.attr="disabled"
                     class="w-full border border-black bg-black px-6 py-3 text-sm text-white disabled:opacity-60">
-                Buat pesanan
+                Place order
             </button>
         </form>
 
         <aside class="md:col-span-2">
-            <h2 class="text-sm uppercase tracking-widest text-neutral-500">Ringkasan</h2>
+            <h2 class="text-sm uppercase tracking-widest text-neutral-500">Summary</h2>
 
             <div class="mt-4 divide-y divide-neutral-200 border-y border-neutral-200 text-sm">
                 @foreach ($lines as $line)
@@ -93,9 +93,9 @@
                     <dt class="text-neutral-500">Subtotal</dt>
                     <dd>Rp {{ number_format($subtotal, 0, ',', '.') }}</dd>
                 </div>
-                <div class="flex justify-between">
-                    <dt class="text-neutral-500">Ongkos kirim</dt>
-                    <dd class="text-neutral-500">Dikonfirmasi setelah pesanan dibuat</dd>
+                <div class="flex justify-between gap-4">
+                    <dt class="text-neutral-500">Shipping</dt>
+                    <dd class="text-right text-neutral-500">Confirmed after your order is placed</dd>
                 </div>
                 <div class="flex justify-between pt-2 text-base">
                     <dt>Total</dt>

@@ -14,24 +14,24 @@
 
             @if ($project->status === 'upcoming' && $project->opens_at)
                 <p class="mt-6 text-sm text-neutral-600">
-                    Dibuka {{ $project->opens_at->translatedFormat('j F Y, H.i') }}
+                    Opens {{ $project->opens_at->locale('en')->translatedFormat('j F Y, H:i') }}
                 </p>
             @endif
 
             <a href="{{ route('shop') }}" wire:navigate
                class="mt-10 inline-block border border-black px-6 py-3 text-sm hover:bg-black hover:text-white">
-                Lihat koleksi
+                View collection
             </a>
         </section>
     @endif
 
     <section class="mx-auto max-w-6xl px-6">
-        <h2 class="mb-8 text-sm uppercase tracking-widest text-neutral-500">Pilihan</h2>
+        <h2 class="mb-8 text-sm uppercase tracking-widest text-neutral-500">Selected</h2>
         <div class="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">
             @forelse ($featured as $product)
                 <x-product-card :product="$product" />
             @empty
-                <p class="col-span-full text-neutral-500">Koleksi akan segera hadir.</p>
+                <p class="col-span-full text-neutral-500">The collection is coming soon.</p>
             @endforelse
         </div>
     </section>

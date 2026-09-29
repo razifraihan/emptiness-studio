@@ -1,20 +1,20 @@
 @php
     $statusLabels = [
-        'pending' => 'Menunggu pembayaran',
-        'paid' => 'Pembayaran diterima',
-        'packed' => 'Sedang dikemas',
-        'shipped' => 'Dalam pengiriman',
-        'done' => 'Selesai',
-        'cancelled' => 'Dibatalkan',
+        'pending' => 'Awaiting payment',
+        'paid' => 'Payment received',
+        'packed' => 'Being packed',
+        'shipped' => 'On its way',
+        'done' => 'Completed',
+        'cancelled' => 'Cancelled',
     ];
 @endphp
 
 <div class="mx-auto max-w-3xl px-6 py-16">
-    <p class="text-xs uppercase tracking-widest text-neutral-500">Terima kasih</p>
-    <h1 class="mt-2 text-3xl font-semibold">Pesananmu sudah kami terima</h1>
+    <p class="text-xs uppercase tracking-widest text-neutral-500">Thank you</p>
+    <h1 class="mt-2 text-3xl font-semibold">We've received your order</h1>
     <p class="mt-4 text-neutral-600">
-        Nomor pesanan <span class="font-medium text-black">{{ $order->code }}</span>.
-        Kami akan mengirim instruksi pembayaran dan konfirmasi ongkos kirim lewat email dan WhatsApp.
+        Order number <span class="font-medium text-black">{{ $order->code }}</span>.
+        We'll send payment instructions and confirm the shipping cost by email and WhatsApp.
     </p>
 
     <p class="mt-6 text-sm">
@@ -41,12 +41,12 @@
             <dd>Rp {{ number_format($order->subtotal, 0, ',', '.') }}</dd>
         </div>
         <div class="flex justify-between">
-            <dt class="text-neutral-500">Ongkos kirim</dt>
+            <dt class="text-neutral-500">Shipping</dt>
             <dd>
                 @if ($order->shipping_cost > 0)
                     Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}
                 @else
-                    <span class="text-neutral-500">Menyusul</span>
+                    <span class="text-neutral-500">To be confirmed</span>
                 @endif
             </dd>
         </div>
@@ -57,7 +57,7 @@
     </dl>
 
     <div class="mt-10 text-sm text-neutral-700">
-        <h2 class="text-xs uppercase tracking-widest text-neutral-500">Dikirim ke</h2>
+        <h2 class="text-xs uppercase tracking-widest text-neutral-500">Shipping to</h2>
         <p class="mt-3">{{ $order->customer_name }}</p>
         <p>{{ $order->address }}</p>
         <p>{{ $order->district }}, {{ $order->city }}, {{ $order->province }} {{ $order->postal_code }}</p>
@@ -65,6 +65,6 @@
 
     <a href="{{ route('shop') }}" wire:navigate
        class="mt-10 inline-block border border-black px-6 py-3 text-sm hover:bg-black hover:text-white">
-        Kembali ke Shop
+        Back to Shop
     </a>
 </div>
